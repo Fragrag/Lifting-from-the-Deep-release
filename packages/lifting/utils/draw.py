@@ -18,7 +18,7 @@ __all__ = [
 ]
 
 
-def draw_limbs(image, pose_2d, visible):
+def draw_limbs(image, pose_2d, visible, use_image_size=False):
     """Draw the 2D pose without the occluded/not visible joints."""
 
     _COLORS = [
@@ -29,8 +29,13 @@ def draw_limbs(image, pose_2d, visible):
     _LIMBS = np.array([0, 1, 2, 3, 3, 4, 5, 6, 6, 7, 8, 9,
                        9, 10, 11, 12, 12, 13]).reshape((-1, 2))
 
-    _NORMALISATION_FACTOR = int(math.floor(math.sqrt(image.shape[0] * image.shape[1] / NORMALISATION_COEFFICIENT)))
-
+    if use_image_size == False:
+        _NORMALISATION_FACTOR = int(math.floor(math.sqrt(image.shape[0] * image.shape[1] / NORMALISATION_COEFFICIENT)))
+    else:
+        height, width, channels = image.shape
+        norm_coef = height*width
+        _NORMALISATION_FACTOR = int(math.floor(math.sqrt(image.shape[0] * image.shape[1] / norm_coef)))
+        
     for oid in range(pose_2d.shape[0]):
         for lid, (p0, p1) in enumerate(_LIMBS):
             if not (visible[oid][p0] and visible[oid][p1]):

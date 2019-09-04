@@ -18,7 +18,12 @@ from os.path import dirname, realpath
 
 DIR_PATH = dirname(realpath(__file__))
 PROJECT_PATH = realpath(DIR_PATH + '/..')
-IMAGE_FILE_PATH = PROJECT_PATH + '/data/images/test_image.png'
+
+# IMAGE_FILE_PATH = PROJECT_PATH + '/data/images/test_image.png'
+# IMAGE_FILE_PATH = PROJECT_PATH + '/data/images/obama_standing.png'
+IMAGE_FILE_PATH = PROJECT_PATH + '/data/images/obama_tan.jpg'
+# IMAGE_FILE_PATH = PROJECT_PATH + '/data/images/boxer.jpg'
+
 SAVED_SESSIONS_DIR = PROJECT_PATH + '/data/saved_sessions'
 SESSION_PATH = SAVED_SESSIONS_DIR + '/init_session/init'
 PROB_MODEL_PATH = SAVED_SESSIONS_DIR + '/prob_model/prob_model_params.mat'
@@ -30,6 +35,7 @@ def main():
 
     # create pose estimator
     image_size = image.shape
+    
 
     pose_estimator = PoseEstimator(image_size, SESSION_PATH, PROB_MODEL_PATH)
 
@@ -52,7 +58,7 @@ def main():
 def display_results(in_image, data_2d, joint_visibility, data_3d):
     """Plot 2D and 3D poses for each of the people in the image."""
     plt.figure()
-    draw_limbs(in_image, data_2d, joint_visibility)
+    draw_limbs(in_image, data_2d, joint_visibility, use_image_size = True)
     plt.imshow(in_image)
     plt.axis('off')
 
